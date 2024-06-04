@@ -41,7 +41,7 @@ export default function Home2() {
               <Text style={styles.buttonText}>Praias com mais lixo</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Perfil')}>
+            <TouchableOpacity style={styles.buttonProfile} onPress={() => navigation.navigate('Perfil')}>
               <Text style={styles.buttonText}>Ver meu perfil</Text>
             </TouchableOpacity>
             <View style={{ marginBottom: 30 }} />
@@ -105,6 +105,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     width: '70%', 
+  },
+  buttonProfile: {
+    backgroundColor: '#0D72BB',
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    width: '70%',
   },
   buttonText: {
     color: 'white',
