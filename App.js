@@ -18,7 +18,7 @@
   export default function App() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home2'>
+        <Stack.Navigator initialRouteName= 'Home1'>
           <Stack.Screen name="Home1" component={Home1} options={{headerShown: false}} />
           <Stack.Screen name="Home2" component={Home2} options={{headerShown: false}} />
           <Stack.Screen name="Cadastro" component={Cadastro} options={{header: ()=> <Header/>}} />

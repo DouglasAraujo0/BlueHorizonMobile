@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#A4C8FF',
     padding: 20,
-
   },
   what: {
     backgroundColor: '#363636',
