@@ -2,15 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const images = [
-  require('../../assets/Numero1.png'),
-  require('../../assets/Numero2.png'),
-  require('../../assets/Numero3.png'),
-  require('../../assets/Numero4.png'),
-  require('../../assets/Numero5.png'),
-];
-
-export default function MaisLixo() {
+export default function Voluntario() {
   const navigation = useNavigation();
 
   return (
@@ -31,14 +23,34 @@ export default function MaisLixo() {
           />
         </View>
 
-        
+        <Text style={styles.subHeader}>
+          Para se tornar um voluntário, primeiramente você precisa realizar um cadastro na BlueHorizon.
+        </Text>
 
-        <TouchableOpacity style={styles.joinButton} onPress={()=> navigation.navigate('Cadastro')}>
+        <Text style={styles.subHeader}>
+          Depois disso, é muito simples: basta ir para uma praia e começar a limpeza!
+        </Text>
+
+        <View style={styles.listItem}>
+          <Image
+            style={styles.listItemIcon}
+            source={require('../../assets/Atencao.png')}
+          />
+          <Text style={styles.listItemText}>
+            É importante que você veja nossa lista dos pontos de coleta do lixo, pois apenas eles estão credenciados para a contagem.
+          </Text>
+        </View>
+
+        <Text style={styles.subHeader}>
+          Em seu perfil dentro da BlueHorizon é possível acompanhar seu progresso, verificar quanto de lixo você já retirou e o dinheiro disponível para sacar. Imagina que legal ganhar dinheiro fazendo o bem?
+        </Text>
+
+        <TouchableOpacity style={styles.joinButton} onPress={() => navigation.navigate('Cadastro')}>
           <Text style={styles.joinButtonText}>Junte-se a nós</Text>
         </TouchableOpacity>
 
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.homeButton} onPress={()=> navigation.navigate('Home2')}>
+          <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home2')}>
             <Image
               style={styles.homeButtonIcon}
               source={require('../../assets/Casa.png')}
@@ -91,25 +103,31 @@ const styles = StyleSheet.create({
   subHeader: {
     textAlign: 'auto',
     marginBottom: 20,
-    marginLeft: 10,
+    marginHorizontal: 20,
     fontSize: 14,
   },
   listItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
     backgroundColor: '#FFF',
     padding: 10,
     borderRadius: 10,
+    marginHorizontal: 20,
   },
   listItemIcon: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
+    width: 30,
+    height: 30,
+    marginRight: 15,
+    right: 5,
   },
   listItemText: {
-    fontSize: 16,
+    fontSize: 14,
     flex: 1,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginHorizontal: 10,
+    right: 20,
   },
   joinButton: {
     backgroundColor: '#1189E0',
@@ -138,4 +156,3 @@ const styles = StyleSheet.create({
     height: 45,
   },
 });
-

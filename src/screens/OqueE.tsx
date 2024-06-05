@@ -102,10 +102,11 @@ const styles = StyleSheet.create({
   },
   subHeader2: {
     marginTop: 50,
-    marginBottom: 25,
+    marginBottom: 20,
     fontSize: 14,
     marginEnd: 50,
     minWidth: 350,
+    fontWeight: 'bold',
   },
   textLeft: {
     textAlign: 'left',
