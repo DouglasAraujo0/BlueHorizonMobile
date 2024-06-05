@@ -17,3 +17,6 @@
 
 #### 4. Rafaella Monique do Carmo Bastos - 552425
 <p></p><br>
+
+## Link do pitch:
+<p>https://www.youtube.com/watch?v=P1d18IPrAPM</p>
