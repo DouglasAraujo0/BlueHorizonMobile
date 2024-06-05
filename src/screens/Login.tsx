@@ -1,10 +1,27 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login() {
     
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const auth = getAuth();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user
+      console.log(user);
+      Alert.alert('Sucesso', 'Login realizado com sucesso!');
+      setTimeout(() => navigation.navigate('Home2'), 2000);
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -16,14 +33,27 @@ export default function Login() {
         <Image source={require('../../assets/Cadeado.png')} style={styles.icon} />
       </View>
       
-      <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#a0a0a0" />
-      <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#a0a0a0" secureTextEntry={true} />
+      <TextInput 
+      style={styles.input}
+      placeholder="E-mail" 
+      placeholderTextColor="#a0a0a0" 
+      value={email}
+      onChangeText={setEmail}
+      />
+      <TextInput 
+      style={styles.input} 
+      placeholder="Senha" 
+      placeholderTextColor="#a0a0a0" 
+      secureTextEntry={true} 
+      value={password}
+      onChangeText={setPassword}
+      />
 
       <TouchableOpacity>
         <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
