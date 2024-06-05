@@ -50,7 +50,7 @@ export default function Voluntario() {
         </TouchableOpacity>
 
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home2')}>
+          <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home1')}>
             <Image
               style={styles.homeButtonIcon}
               source={require('../../assets/Casa.png')}

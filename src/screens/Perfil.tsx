@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Perfil() {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -29,7 +32,9 @@ export default function Perfil() {
       </View>
       
       <View style={styles.footer}>
-        <Image source={require('../../assets/pngwing.com (1).png')} style={styles.footerImage} />
+        <TouchableOpacity onPress={() => navigation.navigate('Home2')}>
+          <Image source={require('../../assets/pngwing.com (1).png')} style={styles.footerImage}/>
+        </TouchableOpacity>
       </View>      
     </View>
   );
@@ -116,9 +121,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: '#A4C8FF',
-    alignItems: 'center', // Centraliza o conteúdo horizontalmente dentro do footer
-    justifyContent: 'center', // Centraliza o conteúdo verticalmente dentro do footer
-    height: 90 // Define a altura do footer
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 90,
   },
   footerImage: {
     width: 50,

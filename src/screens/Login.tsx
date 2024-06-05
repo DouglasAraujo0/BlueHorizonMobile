@@ -16,7 +16,7 @@ export default function Login() {
         <Image source={require('../../assets/Cadeado.png')} style={styles.icon} />
       </View>
       
-      <TextInput style={styles.input} placeholder="CPF" placeholderTextColor="#a0a0a0" />
+      <TextInput style={styles.input} placeholder="E-mail" placeholderTextColor="#a0a0a0" />
       <TextInput style={styles.input} placeholder="Senha" placeholderTextColor="#a0a0a0" secureTextEntry={true} />
 
       <TouchableOpacity>
