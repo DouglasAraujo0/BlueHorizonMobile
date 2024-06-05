@@ -1,9 +1,36 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useState, useEffect } from 'react';
 
 export default function MaisLixo() {
   const navigation = useNavigation();
+
+  const [logado, setLogado] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (user) {
+        // Usuário está logado
+        setLogado(true);
+      } else {
+        // Usuário não está logado
+        setLogado(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleHomePress = () => {
+    if (logado) {
+      navigation.navigate('Home2');
+    } else {
+      navigation.navigate('Home1');
+    }
+  };
 
   return (
     <ScrollView>
@@ -46,7 +73,7 @@ export default function MaisLixo() {
         </TouchableOpacity>
 
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.homeButton} onPress={() => navigation.navigate('Home2')}>
+          <TouchableOpacity style={styles.homeButton} onPress={handleHomePress}>
             <Image
               style={styles.homeButtonIcon}
               source={require('../../assets/Casa.png')}
