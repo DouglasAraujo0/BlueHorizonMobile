@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } fro
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from 'react-native-gesture-handler';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../services/FirebaseConfig';
+import { auth, db } from '../services/FirebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 
 
 export default function Cadastro() {
@@ -21,82 +22,97 @@ export default function Cadastro() {
   const [estado, setEstado] = useState('');
   const [pais, setPais] = useState('');
 
-  const handleCadastro = async () => {
-    // Validação de e-mail
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      Alert.alert('Email inválido'); // Alerta para e-mail inválido
-      return;
-    }
   
-    // Validação de outros campos obrigatórios
-    if (nomeCompleto.trim() === '') {
-      Alert.alert('Nome completo é obrigatório'); // Alerta para nome completo em branco
-      return;
-    }
-    if (dataNascimento.trim() === '' || !/^\d{2}\/\d{2}\/\d{4}$/.test(dataNascimento)) {
-      Alert.alert('Data de nascimento inválida'); // Alerta para data de nascimento inválida
-      return;
-    }
-    if (senha.trim().length < 6) {
-      Alert.alert('A senha deve ter pelo menos 6 caracteres'); // Alerta para senha curta
-      return;
-    }
-    if (cep.trim() === '') {
-      Alert.alert('CEP é obrigatório'); // Alerta para CEP em branco
-      return;
-    }
-    if (rua.trim() === '') {
-      Alert.alert('Rua é obrigatória'); // Alerta para rua em branco
-      return;
-    }
-    if (numero.trim() === '') {
-      Alert.alert('Número é obrigatório'); // Alerta para número em branco
-      return;
-    }
-    if (bairro.trim() === '') {
-      Alert.alert('Bairro é obrigatório'); // Alerta para bairro em branco
-      return;
-    }
-    if (cidade.trim() === '') {
-      Alert.alert('Cidade é obrigatória'); // Alerta para cidade em branco
-      return;
-    }
-    if (estado.trim() === '') {
-      Alert.alert('Estado é obrigatório'); // Alerta para estado em branco
-      return;
-    }
-    if (pais.trim() === '') {
-      Alert.alert('País é obrigatório'); // Alerta para país em branco
-      return;
-    }
-  
-    try {
-      // Criar novo usuário com e-mail e senha
-      const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-      const user = userCredential.user;
-      console.log('Usuário cadastrado com sucesso:', user);
+const handleCadastro = async () => {
+  // Validação de e-mail
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    Alert.alert('Email inválido'); // Alerta para e-mail inválido
+    return;
+  }
 
-      // Limpar os campos após o cadastro
-      setEmail('');
-      setNomeCompleto('');
-      setDataNascimento('');
-      setSenha('');
-      setCep('');
-      setRua('');
-      setNumero('');
-      setBairro('');
-      setCidade('');
-      setEstado('');
-      setPais('');
+  // Validação de outros campos obrigatórios
+  if (nomeCompleto.trim() === '') {
+    Alert.alert('Nome completo é obrigatório'); // Alerta para nome completo em branco
+    return;
+  }
+  if (dataNascimento.trim() === '' || !/^\d{2}\/\d{2}\/\d{4}$/.test(dataNascimento)) {
+    Alert.alert('Data de nascimento inválida'); // Alerta para data de nascimento inválida
+    return;
+  }
+  if (senha.trim().length < 6) {
+    Alert.alert('A senha deve ter pelo menos 6 caracteres'); // Alerta para senha curta
+    return;
+  }
+  if (cep.trim() === '') {
+    Alert.alert('CEP é obrigatório'); // Alerta para CEP em branco
+    return;
+  }
+  if (rua.trim() === '') {
+    Alert.alert('Rua é obrigatória'); // Alerta para rua em branco
+    return;
+  }
+  if (numero.trim() === '') {
+    Alert.alert('Número é obrigatório'); // Alerta para número em branco
+    return;
+  }
+  if (bairro.trim() === '') {
+    Alert.alert('Bairro é obrigatório'); // Alerta para bairro em branco
+    return;
+  }
+  if (cidade.trim() === '') {
+    Alert.alert('Cidade é obrigatória'); // Alerta para cidade em branco
+    return;
+  }
+  if (estado.trim() === '') {
+    Alert.alert('Estado é obrigatório'); // Alerta para estado em branco
+    return;
+  }
+  if (pais.trim() === '') {
+    Alert.alert('País é obrigatório'); // Alerta para país em branco
+    return;
+  }
 
-      Alert.alert('Usuário cadastrado com sucesso!');
-      setTimeout(() => navigation.navigate('Login'), 2000);
-    } catch (error) {
-      console.error('Erro ao cadastrar usuário:', error.message);
-      Alert.alert('Erro ao cadastrar usuário. Por favor, tente novamente mais tarde.');
-    }
-  };
+  try {
+    // Criar novo usuário com e-mail e senha
+    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+    const user = userCredential.user;
+    console.log('Usuário cadastrado com sucesso:', user);
+
+    // Adicionar informações adicionais no Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      nomeCompleto: nomeCompleto,
+      dataNascimento: dataNascimento,
+      email: email,
+      cep: cep,
+      rua: rua,
+      numero: numero,
+      bairro: bairro,
+      cidade: cidade,
+      estado: estado,
+      pais: pais
+    });
+
+    // Limpar os campos após o cadastro
+    setEmail('');
+    setNomeCompleto('');
+    setDataNascimento('');
+    setSenha('');
+    setCep('');
+    setRua('');
+    setNumero('');
+    setBairro('');
+    setCidade('');
+    setEstado('');
+    setPais('');
+
+    Alert.alert('Usuário cadastrado com sucesso!');
+    setTimeout(() => navigation.navigate('Login'), 2000);
+  } catch (error) {
+    console.error('Erro ao cadastrar usuário:', error.message);
+    Alert.alert('Erro ao cadastrar usuário. Por favor, tente novamente mais tarde.');
+  }
+};
 
   return (
     <ScrollView>

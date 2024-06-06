@@ -72,7 +72,7 @@ export default function MaisLixo() {
           </View>
         ))}
 
-        <TouchableOpacity style={styles.joinButton} onPress={()=> navigation.navigate('Cadastro')}>
+        <TouchableOpacity style={styles.joinButton} onPress={()=> navigation.navigate('Login')}>
           <Text style={styles.joinButtonText}>Junte-se a nós</Text>
         </TouchableOpacity>
 

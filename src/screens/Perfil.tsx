@@ -1,9 +1,64 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db, auth } from '../services/FirebaseConfig';
 
 export default function Perfil() {
   const navigation = useNavigation();
+
+    // Definindo estados para armazenar os dados do usuário
+    const [nome, setNome] = useState('');
+    const [idade, setIdade] = useState('');
+    const [cidade, setCidade] = useState('');
+  
+    useEffect(() => {
+      // Função para obter os dados do usuário do Firestore
+      const fetchUserData = async () => {
+        try {
+          const docRef = doc(db, 'users', auth.currentUser.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setNome(userData.nomeCompleto);
+            setIdade(userData.dataNascimento);
+            setCidade(userData.cidade);
+          } else {
+            console.log('Documento não encontrado!');
+          }
+        } catch (error) {
+          console.error('Erro ao obter os dados do usuário:', error);
+        }
+      };
+  
+      fetchUserData();
+    }, []);
+  
+    // Função para atualizar o nome do usuário
+    const handleUpdateName = async () => {
+      try {
+        const docRef = doc(db, 'users', auth.currentUser.uid);
+        await updateDoc(docRef, { nomeCompleto: 'Novo Nome' }); // Altere 'Novo Nome' para o novo valor
+        setNome('Novo Nome'); // Atualiza o estado local com o novo nome
+        Alert.alert('Nome atualizado com sucesso!');
+      } catch (error) {
+        console.error('Erro ao atualizar o nome:', error);
+        Alert.alert('Erro ao atualizar o nome. Por favor, tente novamente mais tarde.');
+      }
+    };
+  
+    // Função para excluir a conta do usuário
+    const handleDeleteAccount = async () => {
+      try {
+        const docRef = doc(db, 'users', auth.currentUser.uid);
+        await deleteDoc(docRef);
+        Alert.alert('Conta excluída com sucesso!');
+        // Você pode adicionar aqui qualquer ação adicional após a exclusão da conta, como redirecionar para a tela de login
+      } catch (error) {
+        console.error('Erro ao excluir a conta:', error);
+        Alert.alert('Erro ao excluir a conta. Por favor, tente novamente mais tarde.');
+      }
+    };
 
   return (
     <View style={styles.container}>
@@ -30,6 +85,14 @@ export default function Perfil() {
       <View style={styles.balanceContainer}>
         <Text style={styles.balanceText}>Seu saldo: <Text style={styles.balanceAmount}>R$150,00</Text></Text>
       </View>
+
+      <TouchableOpacity style={styles.updateButton} onPress={handleUpdateName}>
+        <Text style={styles.buttonText}>Atualizar Nome</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAccount}>
+        <Text style={styles.buttonText}>Excluir Conta</Text>
+      </TouchableOpacity>
       
       <View style={styles.footer}>
         <TouchableOpacity onPress={() => navigation.navigate('Home2')}>
@@ -52,6 +115,27 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 10,
     marginEnd: 50,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  updateButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '80%',
+  },
+  deleteButton: {
+    backgroundColor: '#FF6347',
+    padding: 10,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginBottom: 20,
+    width: '80%',
   },
   profileImage: {
     width: 100,
