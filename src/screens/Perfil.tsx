@@ -7,13 +7,13 @@ import { db, auth } from '../services/FirebaseConfig';
 export default function Perfil() {
   const navigation = useNavigation();
 
-    // Definindo estados para armazenar os dados do usuário
+  
     const [nome, setNome] = useState('');
     const [idade, setIdade] = useState('');
     const [cidade, setCidade] = useState('');
   
     useEffect(() => {
-      // Função para obter os dados do usuário do Firestore
+      
       const fetchUserData = async () => {
         try {
           const docRef = doc(db, 'users', auth.currentUser.uid);
@@ -34,12 +34,12 @@ export default function Perfil() {
       fetchUserData();
     }, []);
   
-    // Função para atualizar o nome do usuário
+   
     const handleUpdateName = async () => {
       try {
         const docRef = doc(db, 'users', auth.currentUser.uid);
-        await updateDoc(docRef, { nomeCompleto: 'Novo Nome' }); // Altere 'Novo Nome' para o novo valor
-        setNome('Novo Nome'); // Atualiza o estado local com o novo nome
+        await updateDoc(docRef, { nomeCompleto: 'Novo Nome' }); 
+        setNome('Novo Nome'); 
         Alert.alert('Nome atualizado com sucesso!');
       } catch (error) {
         console.error('Erro ao atualizar o nome:', error);
@@ -47,13 +47,13 @@ export default function Perfil() {
       }
     };
   
-    // Função para excluir a conta do usuário
+
     const handleDeleteAccount = async () => {
       try {
         const docRef = doc(db, 'users', auth.currentUser.uid);
         await deleteDoc(docRef);
         Alert.alert('Conta excluída com sucesso!');
-        // Você pode adicionar aqui qualquer ação adicional após a exclusão da conta, como redirecionar para a tela de login
+    
       } catch (error) {
         console.error('Erro ao excluir a conta:', error);
         Alert.alert('Erro ao excluir a conta. Por favor, tente novamente mais tarde.');

@@ -21,10 +21,10 @@ export default function PontosColeta() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
-        // Usuário está logado
+
         setLogado(true);
       } else {
-        // Usuário não está logado
+
         setLogado(false);
       }
     });

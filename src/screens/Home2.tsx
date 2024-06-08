@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   whatText: {
-    color: '#fff', // Mudança para preto
+    color: '#fff', 
     fontSize: 16,
-    fontWeight: 'bold', // Adição do negrito
+    fontWeight: 'bold', 
   },
   scrollViewContent: {
     flexGrow: 1,

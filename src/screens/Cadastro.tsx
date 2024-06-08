@@ -27,59 +27,58 @@ const handleCadastro = async () => {
   // Validação de e-mail
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    Alert.alert('Email inválido'); // Alerta para e-mail inválido
+    Alert.alert('Email inválido'); 
     return;
   }
 
   // Validação de outros campos obrigatórios
   if (nomeCompleto.trim() === '') {
-    Alert.alert('Nome completo é obrigatório'); // Alerta para nome completo em branco
+    Alert.alert('Nome completo é obrigatório'); 
     return;
   }
   if (dataNascimento.trim() === '' || !/^\d{2}\/\d{2}\/\d{4}$/.test(dataNascimento)) {
-    Alert.alert('Data de nascimento inválida'); // Alerta para data de nascimento inválida
+    Alert.alert('Data de nascimento inválida'); 
     return;
   }
   if (senha.trim().length < 6) {
-    Alert.alert('A senha deve ter pelo menos 6 caracteres'); // Alerta para senha curta
+    Alert.alert('A senha deve ter pelo menos 6 caracteres'); 
     return;
   }
   if (cep.trim() === '') {
-    Alert.alert('CEP é obrigatório'); // Alerta para CEP em branco
+    Alert.alert('CEP é obrigatório'); 
     return;
   }
   if (rua.trim() === '') {
-    Alert.alert('Rua é obrigatória'); // Alerta para rua em branco
+    Alert.alert('Rua é obrigatória'); 
     return;
   }
   if (numero.trim() === '') {
-    Alert.alert('Número é obrigatório'); // Alerta para número em branco
+    Alert.alert('Número é obrigatório'); 
     return;
   }
   if (bairro.trim() === '') {
-    Alert.alert('Bairro é obrigatório'); // Alerta para bairro em branco
+    Alert.alert('Bairro é obrigatório'); 
     return;
   }
   if (cidade.trim() === '') {
-    Alert.alert('Cidade é obrigatória'); // Alerta para cidade em branco
+    Alert.alert('Cidade é obrigatória'); 
     return;
   }
   if (estado.trim() === '') {
-    Alert.alert('Estado é obrigatório'); // Alerta para estado em branco
+    Alert.alert('Estado é obrigatório'); 
     return;
   }
   if (pais.trim() === '') {
-    Alert.alert('País é obrigatório'); // Alerta para país em branco
+    Alert.alert('País é obrigatório'); 
     return;
   }
 
   try {
-    // Criar novo usuário com e-mail e senha
+    
     const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
     const user = userCredential.user;
     console.log('Usuário cadastrado com sucesso:', user);
 
-    // Adicionar informações adicionais no Firestore
     await setDoc(doc(db, "users", user.uid), {
       nomeCompleto: nomeCompleto,
       dataNascimento: dataNascimento,
@@ -93,7 +92,6 @@ const handleCadastro = async () => {
       pais: pais
     });
 
-    // Limpar os campos após o cadastro
     setEmail('');
     setNomeCompleto('');
     setDataNascimento('');

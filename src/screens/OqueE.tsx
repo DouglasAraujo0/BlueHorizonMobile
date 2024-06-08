@@ -13,10 +13,10 @@ export default function MaisLixo() {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
-        // Usuário está logado
+
         setLogado(true);
       } else {
-        // Usuário não está logado
+
         setLogado(false);
       }
     });
@@ -152,19 +152,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 15,
     paddingHorizontal: 5,
-    position: 'relative', // allows absolute positioning within this container
+    position: 'relative', 
     marginStart: 50,
   },
   flexText: {
     flex: 1,
-    textAlign: 'center', // centraliza o texto
+    textAlign: 'center', 
   },
   arrowImage: {
     width: 45,
     height: 45,
     position: 'absolute',
-    top: -10, // adjust as needed to position it higher
-    left: -40, // adjust as needed for horizontal positioning
+    top: -10,
+    left: -40,
   },
   joinButton: {
     backgroundColor: '#1189E0',
